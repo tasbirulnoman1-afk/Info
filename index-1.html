@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Matrix Rain Canvas */
+        #matrix-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 255, 136, 0.3); border-radius: 3px; }
+
+        /* Profile Card */
+        .profile-card {
+            margin-top: 60px;
+            background: rgba(0, 20, 10, 0.55);
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            border-radius: 18px;
+            padding: 35px 25px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.15);
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #003322);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: #000;
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+            margin-bottom: 6px;
+        }
+
+        .profile-tag {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 28px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.25);
+            border-radius: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        .link-btn:hover, .link-btn:active {
+            background: rgba(0, 255, 136, 0.12);
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .link-icon {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .icon-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .icon-whatsapp { background: #25D366; }
+        .icon-telegram { background: #229ED9; }
+
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(0, 255, 136, 0.4);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="avatar">A</div>
+            <div class="profile-name">ABIR AHAMMAD</div>
+            <div class="profile-tag">Connect with me</div>
+
+            <a class="link-btn" href="https://www.instagram.com/abir_x_stone/" target="_blank" rel="noopener">
+                <div class="link-icon icon-insta">📷</div>
+                <span>Instagram &mdash; @abir_x_stone</span>
+            </a>
+
+            <a class="link-btn" href="https://wa.me/8801410935706?text=Hello" target="_blank" rel="noopener">
+                <div class="link-icon icon-whatsapp">💬</div>
+                <span>WhatsApp &mdash; Message Me</span>
+            </a>
+
+            <a class="link-btn" href="https://t.me/Abir0N3" target="_blank" rel="noopener">
+                <div class="link-icon icon-telegram">✈️</div>
+                <span>Telegram &mdash; @Abir0N3</span>
+            </a>
+        </div>
+        <div class="footer-note">SYSTEM ONLINE // MATRIX ACTIVE</div>
+    </div>
+
+    <script>
+        // ============ MATRIX RAIN ============
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const chars = 'アイウエオカキクケコサシスセソタチツテト0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = Math.random() * -100;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff88';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
